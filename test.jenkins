@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('.') {
-                	sh 'docker-compose build -t yok007/toolbox:latest . '
+                	sh 'docker-compose build -t yok007/lamp_web-server:latest . '
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push yok007/toolbox:latest
+                docker push yok007/lamp_web-server:latest
                 '''
             }
         }
