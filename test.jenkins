@@ -25,7 +25,7 @@ pipeline {
         stage("create docker image") {
             steps {
                 echo " ============== start building image =================="
-                dir ('.') {
+                dir ('docker') {
                 	sh 'docker-compose build -t yok007/lamp_web-server:latest . '
                 }
             }
