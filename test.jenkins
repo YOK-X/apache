@@ -4,7 +4,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { 
-      label 'built-in'
+      label 'built-in node'
        }
    triggers { pollSCM('* * * * *') }
     options {
