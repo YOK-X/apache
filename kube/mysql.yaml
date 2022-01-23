@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      pod: mysql-container
+  template:
+    metadata:
+      labels:
+        pod: mysql-container
+    spec:
+      containers:
+        - name: mysql-web
+          image: yok007/mysql:latest
+          ports:
+            - containerPort: 5000
