@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin
+  labels:
+    app: phpmyadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      imagePullSecrets:
+      - name: regdoc
+      containers:
+      - name: phpmyadmin
+        image: yok007/php-myadmin
+        ports:
+        - containerPort: 80
+        env:
+        - name: PMA_HOST
+          valueFrom: 
+            configMapKeyRef:
+              name: mysql-configmap
+              key: database_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin
+spec:
+  selector:
+    app: phpmyadmin
+#  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30001

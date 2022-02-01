@@ -1,21 +1,58 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-deployment
   labels:
     app: mysql
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      pod: mysql-container
+      app: mysql
   template:
     metadata:
       labels:
-        pod: mysql-container
+        app: mysql
     spec:
+      imagePullSecrets:
+      - name: regdoc
       containers:
-        - name: mysql-web
-          image: yok007/mysql:latest
-          ports:
-            - containerPort: 5000
+      - name: mysql
+        image: mysql:8.0.19
+        ports:
+        - containerPort: 3306
+        env:
+        - name: TZ
+          value: "Europe/Rome"
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "no"
+        - name: MYSQL_DATABASE
+          value: testdb
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: lamp-secret
+              key: mysql-root-password
+        - name: MYSQL_USER
+          valueFrom: 
+            secretKeyRef:
+              name: lamp-secret
+              key: mysql-username
+        - name: MYSQL_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: lamp-secret
+              key: mysql-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+          
