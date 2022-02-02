@@ -1,13 +1,8 @@
-#!groovy
-// Run docker build
 properties([disableConcurrentBuilds()])
 
 pipeline {
     agent any
-//    { 
- //     label 'master'
-  //     }
-//   triggers { pollSCM('* * * * *') }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -27,7 +22,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('docker') {
-                	sh 'docker build -t yok007/lamp_web-server:latest . '
+                	sh 'docker build -t yok007/web_server . '
                 }
             }
         }
@@ -35,11 +30,15 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push yok007/lamp_web-server:latest
+                docker push yok007/web-server:latest
                 '''
             }
         }
+        stage('Deploy') {
+            steps {
+                echo " ============== start docker-compose =================="
+
+        sh 'docker-compose -f docker-compose.yml up -d'
+            }
+        }
     }
-}
-////
-///
