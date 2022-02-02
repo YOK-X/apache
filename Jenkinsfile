@@ -1,3 +1,4 @@
+/* groovylint-disable DuplicateStringLiteral, SpaceAfterMethodCallName */
 properties([disableConcurrentBuilds()])
 
 pipeline {
@@ -8,18 +9,18 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("create docker image") {
+        stage('create docker image') {
             steps {
-                echo " ============== start building image =================="
+                echo ' ============== start building image =================='
                 dir ('docker') {
-                	sh 'docker build -t yok007/web_server . '
+                    sh 'docker build -t yok007/web_server . '
                 }
             }
-        }   
-        stage("docker push") {
+        }
+        stage('docker push') {
             steps {
+                echo ' ============== start pushing image =================='
                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                echo " ============== start pushing image =================="                
                 sh '''
                 docker push yok007/web_server:latest
                 '''
@@ -28,7 +29,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo " ============== start docker-compose =================="
+                echo ' ============== start docker-compose =================='
 
         sh 'docker-compose -f docker-compose.yml up -d'
             }
