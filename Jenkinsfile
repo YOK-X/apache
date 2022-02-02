@@ -18,11 +18,12 @@ pipeline {
         }   
         stage("docker push") {
             steps {
-                echo " ============== start pushing image =================="
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                echo " ============== start pushing image =================="                
                 sh '''
                 docker push yok007/web_server:latest
                 '''
+                }
             }
         }
         stage('Deploy') {
