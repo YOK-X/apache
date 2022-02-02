@@ -1,29 +1,36 @@
-node {
+pipeline {
+agent any
 
-    agent any
-    def app
+    stages {
+        stage('create docker image') {
+            steps {
+                echo ' ============== start building image =================='
 
-    stage('Clone repository') {
+            /* groovylint-disable-next-line SpaceAfterMethodCallName */
+            dir ('docker') {
+                sh 'docker build -t yok007/web_server . '
+            }
+            }
+        }
 
-        checkout scm
-    }
+        stage('docker push') {
+            steps {
+                echo ' ============== start pushing image =================='
 
-    stage('Build image') {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            sh '''
+                docker push yok007/web_server:latest
+            '''
+                }
+            }
+        }
 
-        app = docker.build('yok007/web_server')
-    }
+        stage('Deploy') {
+            steps {
+                echo ' ============== start docker-compose =================='
 
-    stage('Push image') {
-
-        echo '============== start pushing image =================='
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push('new')
+            sh 'docker-compose -f docker-compose.yml up -d'
+            }
         }
     }
-
-    stage('Deploy') {
-        echo ' ============== start docker-compose =================='
-        sh 'docker-compose -f docker-compose.yml up -d'
-    }
-
 }
