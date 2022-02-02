@@ -1,38 +1,26 @@
-/* groovylint-disable DuplicateStringLiteral, SpaceAfterMethodCallName */
-properties([disableConcurrentBuilds()])
+node {
+    def app
 
-pipeline {
-    agent any
+    stage('Clone repository') {
 
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
-        timestamps()
+        checkout scm
     }
-    stages {
-        stage('create docker image') {
-            steps {
-                echo ' ============== start building image =================='
-                dir ('docker') {
-                    sh 'docker build -t yok007/web_server . '
-                }
-            }
-        }
-        stage('docker push') {
-            steps {
-                echo ' ============== start pushing image =================='
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                sh '''
-                docker push yok007/web_server:latest
-                '''
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo ' ============== start docker-compose =================='
 
+    stage('Build image') {
+
+        app = docker.build("yok007/web_server")
+    }
+
+    stage('Push image') {
+        echo "============== start pushing image =================="
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push("new")
+            }              
+    }
+
+    stage('Deploy') {
+        echo ' ============== start docker-compose =================='
         sh 'docker-compose -f docker-compose.yml up -d'
-            }
-        }
     }
+
 }
