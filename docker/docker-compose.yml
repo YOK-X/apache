@@ -22,7 +22,7 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        restart: alwayss
+        restart: always
         environment:
             PMA_HOST: mysql-server
             PMA_USER: root
@@ -34,3 +34,4 @@ services:
 
 volumes:
     mariadb-volume:
+#
