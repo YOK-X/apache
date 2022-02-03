@@ -18,7 +18,7 @@ agent any
                 echo ' ============== start pushing image =================='
 
                 /* groovylint-disable-next-line LineLength */
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 
             sh 'docker push yok007/web_server'
                 }
