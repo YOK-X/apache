@@ -19,7 +19,7 @@ agent any
 
             /* groovylint-disable-next-line SpaceAfterMethodCallName */
             dir ('docker') {
-                sh 'docker build -t yok007/web_server . '
+                sh 'docker build -t yok007/web-server . '
             }
             }
         }
@@ -31,7 +31,7 @@ agent any
                 /* groovylint-disable-next-line LineLength */
 //               withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 
-            sh '''docker push yok007/web_server'''
+            sh '''docker push yok007/web-server'''
                 }
             }
 
