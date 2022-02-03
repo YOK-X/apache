@@ -5,7 +5,6 @@ agent any
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
-                /* groovylint-disable-next-line LineLength */
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh """
                     docker login -u $USERNAME -p $PASSWORD
@@ -17,7 +16,6 @@ agent any
             steps {
                 echo ' ============== start building image =================='
 
-            /* groovylint-disable-next-line SpaceAfterMethodCallName */
             dir ('docker') {
                 sh 'docker build -t yok007/web-server . '
             }
@@ -28,8 +26,6 @@ agent any
             steps {
                 echo ' ============== start pushing image =================='
 
-                /* groovylint-disable-next-line LineLength */
-//               withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 
             sh '''docker push yok007/web-server'''
                 }
