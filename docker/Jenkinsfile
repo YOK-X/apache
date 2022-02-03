@@ -8,7 +8,7 @@ node {
 
     stage('Build image') {
 
-        app = docker.build("yok007/web_server")
+        app = docker.build("yok007/web-server")
     }
 
     stage('Push image') {
