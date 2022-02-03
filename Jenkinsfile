@@ -19,10 +19,8 @@ agent any
 
                 /* groovylint-disable-next-line LineLength */
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {
-                    bat "docker login -u $USER -p $PASSWORD"
-            sh '''
-                docker push yok007/web_server:latest
-            '''
+
+            sh 'docker push yok007/web_server'
                 }
             }
         }
