@@ -8,14 +8,14 @@ node {
 
     stage('Build image') {
 
-        app = docker.build("yok007/web-server")
+        app = docker.build('yok007/web-server')
     }
 
     stage('Push image') {
-        echo "============== start pushing image =================="
+        echo '============== start pushing image =================='
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("new")
-            }              
+            app.push('new')
+        }
     }
 
     stage('Deploy') {
