@@ -1,13 +1,16 @@
 pipeline {
+
 agent any
 
-    stage('Deploy App') {
-      steps {
-
-          withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]) {
-            sh 'kubectl apply -f .'          
+    stages{
+        stage('Deploy App') {
+        steps {
+            withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]) {
+                sh 'kubectl apply -f .'
+            }
         }
-      }
+        }
     }
 }
+
 
