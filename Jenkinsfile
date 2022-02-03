@@ -34,7 +34,6 @@ agent any
             sh '''docker push yok007/web_server'''
                 }
             }
-        }
 
         stage('Deploy') {
             steps {
