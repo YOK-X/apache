@@ -17,7 +17,8 @@ agent any
             steps {
                 echo ' ============== start pushing image =================='
 
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                /* groovylint-disable-next-line LineLength */
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {
             sh '''
                 docker push yok007/web_server:latest
             '''
