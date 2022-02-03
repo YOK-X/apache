@@ -8,17 +8,13 @@ services:
         restart: always
         volumes:
             - "./html/:/var/www/html/"
-    mariadb:
-        image: mariadb:10.5.2
-        volumes:
-            - mariadb-volume:/var/lib/mysql
+    mysql-server:
+        image: mysql:8.0.19
+        restart: always
         environment:
-            TZ: "Europe/Rome"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-            MYSQL_ROOT_PASSWORD: "rootpwd"
-            MYSQL_USER: 'testuser'
-            MYSQL_PASSWORD: 'testpassword'
-            MYSQL_DATABASE: 'testdb'
+            MYSQL_ROOT_PASSWORD: secret
+        volumes:
+        - mysql-data:/var/lib/mysql
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -27,11 +23,7 @@ services:
             PMA_HOST: mysql-server
             PMA_USER: root
             PMA_PASSWORD: secret
-        links:
-            - 'mariadb:db'
         ports:
-            - 8088:80
-
+        - "8088:80"
 volumes:
-    mariadb-volume:
-#
+    mysql-data:
