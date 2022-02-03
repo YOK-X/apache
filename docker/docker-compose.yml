@@ -22,7 +22,11 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        restart: always
+        restart: alwayss
+        environment:
+            PMA_HOST: mysql-server
+            PMA_USER: root
+            PMA_PASSWORD: secret
         links:
             - 'mariadb:db'
         ports:
