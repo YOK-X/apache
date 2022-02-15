@@ -5,11 +5,11 @@ pipeline {
   }
   stages {
     stage('Scan') {
-      steps {
+      steps 
         { 
           sh './index.php clean sonar:sonar'
         }
-      }
+      
     }
   }
 }
