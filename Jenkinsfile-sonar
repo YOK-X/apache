@@ -7,7 +7,7 @@ pipeline {
     stage('Scan') {
       steps {
         { 
-          sh './docker clean sonar:sonar'
+          sh './index.php clean sonar:sonar'
         }
       }
     }
