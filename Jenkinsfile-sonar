@@ -6,17 +6,9 @@ pipeline {
   stages {
     stage('Scan') {
       steps {
-          withSonarQubeEnv('SonarQubeServer') { 
-            def sonarRunner = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            sh """
-                ${sonarRunner}/bin/sonar-scanner \
-                -Dsonar.projectKey=your_project_key \
-                -Dsonar.sources=.
-            """
-}
- //       withSonarQubeEnv(installationName: 'SonarQube') { 
- //         sh './docker clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
- //       }
+        withSonarQubeEnv(installationName: 'SonarQubeScaner') { 
+          sh './kube clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+        }
       }
     }
   }
