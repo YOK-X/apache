@@ -5,11 +5,11 @@ pipeline {
   }
   stages {
     stage('Scan') {
-      steps 
-        { 
-          sh './index.php clean sonar:sonar'
+      steps {
+        withSonarQubeEnv(installationName: 'sq1') { 
+          sh './docker clean sonar:sonar'
         }
-      
+      }
     }
   }
 }
